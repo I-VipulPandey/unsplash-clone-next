@@ -5,11 +5,10 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 
 
-const card = () => {
+const searchCard = () => {
 
-  const { trending } = useContext(AppContext);
-
-  const [images, setimages] = trending;
+  const { search } = useContext(AppContext);
+  const [images, setimages] = search;
 
 
  
@@ -65,4 +64,4 @@ return <div key={image.id} className="relative group">
   )
 }
 
-export default card
+export default searchCard

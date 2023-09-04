@@ -22,7 +22,6 @@ const page = () => {
 
     try {
       const { data } = await axios.get(`https://api.unsplash.com/photos/random?client_id=vDNZUWUFxvhAlDQUdnVU8k6JnYetF6XOQjATYnemf44&page=${globalData.length}&count=20`)
-// https://api.unsplash.com/photos/IMAGE_ID?client_id=YOUR_CLIENT_ID/ACCESS_TOKEN
 
       data.length === 0 ? setHasMore(false) : "";
 
@@ -66,7 +65,7 @@ const page = () => {
       >
         <div className=" pt-5 columns-1 md:columns-4 px-5  ">
 
-          {card(globalData)}
+          {card()}
         </div>
       </InfiniteScroll>
 

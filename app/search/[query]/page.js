@@ -1,7 +1,8 @@
 "use client"
 
 import { AppContext } from "@/app/wrapper"
-import card from "@/components/Card/page"
+import searchCard from "@/components/SearchCard/page"
+
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
@@ -56,7 +57,7 @@ const search = ({ params }) => {
             >
                 <div className=" columns-1 md:columns-4 px-5 py-10 ">
 
-                    {card(searchResult)}
+                    {searchCard()}
                 </div>
             </InfiniteScroll>
             <ToastContainer />
