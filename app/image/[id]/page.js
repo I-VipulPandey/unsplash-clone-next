@@ -1,76 +1,60 @@
 "use client"
-
-import {  useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios"
-
-const image = ({ params }) => {
-
-    const [singleImage, setsingleImage] = useState([])
+import axios from "axios";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+const Image = () => {
+    const {id} = useParams();
+    const [singleImage, setSingleImage] = useState({});
+    const [loading, setLoading] = useState(true);
 
     async function getSingleImage() {
-
         try {
-            const { data } = await axios.get(`https://api.unsplash.com/photos/${params.id}?client_id=vDNZUWUFxvhAlDQUdnVU8k6JnYetF6XOQjATYnemf44`)
-
-
-            setsingleImage(data)
-
+            const { data } = await axios.get(`https://api.unsplash.com/photos/${id}?client_id=vDNZUWUFxvhAlDQUdnVU8k6JnYetF6XOQjATYnemf44`);
+            setSingleImage(data);
+            setLoading(false);
         } catch (error) {
-
             toast.error(error.message, {
                 autoClose: 3000,
             });
         }
-
-
     }
-
-
 
     useEffect(() => {
         getSingleImage();
-
-
-    }, [])
-
-
-
-
+    }, [id]);
 
     return (
-        <>
-            <h3 className="text-center font-mono text-xl">You are viewing an image by {singleImage.user?.name} </h3>
-
-            <div class="bg-gray-100">
-                <div class="container mx-auto p-4">
-                    <div class="bg-white rounded-lg p-8">
-                     
-                              <div class="text-center">
-                                <img src={singleImage.urls?.regular} alt="Image" class="mx-auto rounded-lg " />
+        <div className="bg-gray-100 min-h-screen">
+            <div className="container mx-auto p-4">
+                <Link href="/" className="text-blue-500 hover:underline">← Back to Gallery</Link>
+                {loading ? (
+                    <p className="text-center mt-8">Loading...</p>
+                ) : (
+                    <>
+                        <h1 className="text-center font-mono text-3xl mb-4">Image by {singleImage.user?.name}</h1>
+                        <div className="bg-white rounded-lg p-8 shadow-lg">
+                            <div className="text-center">
+                                <img src={singleImage.urls?.regular} alt={singleImage.alt_description} className="mx-auto rounded-lg" />
                             </div>
+                            <div className="mt-4 text-center capitalize">
+                                <h2 className="text-2xl font-semibold">{singleImage.alt_description}</h2>
+                                <div className="mx-auto p-16">
+                                    <p className="text-gray-600 text-left mt-2">Liked by: {singleImage.likes}</p>
+                                    <p className="text-gray-600 text-left mt-2">Author: {singleImage.user?.name}</p>
+                                    <p className="text-gray-600 text-left mt-2">Uploaded: {new Date(singleImage.created_at).toLocaleDateString()}</p>
+                                </div>
 
-                        <div class="mt-4 text-center">
-                            <h1 class="text-2xl font-semibold">{singleImage.alt_description}</h1>
-                            <p class="text-gray-600 mt-2">Liked by : {singleImage.likes}</p>
-                            <p class="text-gray-600 mt-2">Author: {singleImage.user?.name}</p>
-                            <p class="text-gray-600 mt-2">Uploaded: {singleImage.created_at}</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
-
-
-
-
-
-
             <ToastContainer />
-
-
-        </>
+        </div>
     );
 }
 
-export default image
+export default Image;
