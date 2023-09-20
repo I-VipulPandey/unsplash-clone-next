@@ -29,7 +29,7 @@ const Image = () => {
     return (
         <div className="bg-gray-100 min-h-screen">
             <div className="container mx-auto p-4">
-                <Link href="/" className="text-blue-500 hover:underline">← Back to Gallery</Link>
+                <Link href="/" className="text-blue-500 p-5 hover:underline">← Back to Gallery</Link>
                 {loading ? (
                     <p className="text-center mt-8">Loading...</p>
                 ) : (
